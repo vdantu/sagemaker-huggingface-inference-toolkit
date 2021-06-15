@@ -89,7 +89,9 @@ class HuggingFaceHandlerService(ABC):
         The get device function will return the device for the DL Framework.
         """
         if _is_gpu_available():
-            return int(self.context.system_properties.get("gpu_id"))
+            device = self.context.system_properties.get("gpu_id")
+            os.environ["CUDA_VISIBLE_DEVICES"] = device
+            return int(device)
         else:
             return -1
 
